@@ -70,7 +70,7 @@ body {
 
 .prayer-text {
     font-size: 1.7rem;
-    line-height: 1.9;
+    line-height: 1.95;
     text-align: left;
     white-space: pre-wrap;
     letter-spacing: 0;
@@ -144,7 +144,7 @@ body {
 
     .body-text,
     .prayer-text {
-        font-size: 1.2rem;
+        font-size: 1.7rem;
         line-height: 1.95;
         margin-bottom: 22px;
     }
