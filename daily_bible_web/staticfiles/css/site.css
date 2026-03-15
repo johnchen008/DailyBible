@@ -67,12 +67,11 @@ body {
     line-height: 1.35;
 }
 
-
+.body-text,
 .prayer-text {
-    font-size: 1.7rem;
+    font-size: 1.2rem;
     line-height: 1.95;
     text-align: left;
-    white-space: pre-wrap;
     letter-spacing: 0;
     margin-bottom: 28px;
 }
