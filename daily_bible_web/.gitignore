@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*.log
+db.sqlite3
+local_settings.py
+daily_bible_web/settings.py
+daily_bible_web/wsgi.py
+
+# Migrations (optional – keep if you want versioned schema)
+pages/migrations/
+
+# Static files collected by Django
+staticfiles/
+
+# Media uploads (if you add them later)
+media/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Coverage / testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+
+# Node (in case frontend tooling added later)
+node_modules/
+
+# Local config files (keep secrets out of repo)
+config.json
+daily_devotion_state.json
