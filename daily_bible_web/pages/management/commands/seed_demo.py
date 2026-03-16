@@ -1,3 +1,4 @@
+import re
 from datetime import date
 
 from django.core.management.base import BaseCommand
@@ -7,6 +8,28 @@ from pages.models import DailyPage, ReadingLink
 
 
 DEFAULT_IMAGE = "/static/images/top_banner.jpg"
+
+CHINESE_CHAR = r"\u4e00-\u9fff"
+CHINESE_PUNCT = r"，。！？；：、“”‘’（）《》〈〉【】〔〕—…,.!?;:()[]{}\"'<>"
+
+
+def remove_pdf_spacing(text: str) -> str:
+    if not text:
+        return text
+
+    text = str(text)
+
+    # 统一换行
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+
+    # 去掉中文之间因 PDF 抽取/自动换行造成的空白
+    text = re.sub(rf"(?<=[{CHINESE_CHAR}])\s+(?=[{CHINESE_CHAR}])", "", text)
+
+    # 去掉中文与中文标点之间的空白
+    text = re.sub(rf"(?<=[{CHINESE_CHAR}])\s+(?=[{CHINESE_PUNCT}])", "", text)
+    text = re.sub(rf"(?<=[{CHINESE_PUNCT}])\s+(?=[{CHINESE_CHAR}])", "", text)
+
+    return text.strip()
 
 DEVOTIONS = [{'body': '你是照着神的形象所造的，是祂满怀爱意与目的精心塑造\n'
           '的。你不是偶然，也不是事后的想法。从起初，神就细心\n'
@@ -1688,20 +1711,23 @@ class Command(BaseCommand):
         for plan in DEVOTIONS:
             page_date = date(year, plan["month"], plan["day"])
 
+            clean_body = remove_pdf_spacing(plan["body"])
+            clean_prayer = remove_pdf_spacing(plan["prayer"])
+
             page, created = DailyPage.objects.get_or_create(
                 page_date=page_date,
                 defaults={
                     "title": f'{plan["month"]} 月 {plan["day"]} 日：{plan["title"]}',
-                    "body": plan["body"].strip(),
-                    "prayer": plan["prayer"].strip(),
+                    "body": clean_body,
+                    "prayer": clean_prayer,
                     "image_path": DEFAULT_IMAGE,
                 },
             )
 
             if not created:
                 page.title = f'{plan["month"]} 月 {plan["day"]} 日：{plan["title"]}'
-                page.body = plan["body"].strip()
-                page.prayer = plan["prayer"].strip()
+                page.body = clean_body
+                page.prayer = clean_prayer
                 page.image_path = DEFAULT_IMAGE
                 page.save()
 
