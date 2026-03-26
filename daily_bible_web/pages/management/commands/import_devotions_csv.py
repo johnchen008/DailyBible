@@ -1,5 +1,6 @@
 import csv
 import json
+import re
 from pathlib import Path
 from datetime import datetime
 
@@ -10,6 +11,59 @@ from pages.models import DailyPage, ReadingLink
 
 
 DEFAULT_IMAGE = "/static/images/top_banner.jpg"
+
+CATEGORY_IMAGE_MAP = {
+    "全心爱主": "/static/images/picture1.jpg",
+    "连结社群": "/static/images/picture2.jpg",
+    "进入命定": "/static/images/picture3.jpg",
+    "成为祝福": "/static/images/picture4.jpg",
+}
+
+
+def normalize_paragraphs(text: str) -> str:
+    """
+    目标：
+    1. 段内换行合并成一段
+    2. 段与段之间保留空行（双换行）
+    3. 兼容 CSV 中的字面量 \\n
+    """
+    text = (text or "").strip()
+    if not text:
+        return text
+
+    # 统一换行
+    text = text.replace("\r\n", "")
+
+    lines = [line.strip() for line in text.split("\n")]
+
+    paragraphs = []
+    current = []
+
+    for line in lines:
+        if not line:
+            if current:
+                paragraphs.append("".join(current).strip())
+                current = []
+            continue
+
+        current.append(line)
+
+    if current:
+        paragraphs.append("".join(current).strip())
+
+    return "\n\n".join(p for p in paragraphs if p)
+
+
+def clean_prayer_text(prayer: str) -> str:
+    prayer = normalize_paragraphs(prayer)
+    if not prayer:
+        return prayer
+
+    match = re.search(r"阿们。", prayer)
+    if match:
+        return prayer[: match.end()].strip()
+
+    return prayer
 
 
 class Command(BaseCommand):
@@ -58,11 +112,14 @@ class Command(BaseCommand):
 
             for row_num, row in enumerate(reader, start=2):
                 page_date_raw = (row.get("page_date") or "").strip()
+                category = (row.get("category") or "").strip()
                 title = (row.get("title") or "").strip()
-                body = (row.get("body") or "").strip()
-                prayer = (row.get("prayer") or "").strip()
-                image_path = (row.get("image_path") or "").strip() or DEFAULT_IMAGE
+                body = normalize_paragraphs(row.get("body") or "")
+                prayer = clean_prayer_text(row.get("prayer") or "")
+                csv_image_path = (row.get("image_path") or "").strip()
                 reading_links_json = (row.get("reading_links_json") or "").strip()
+
+                image_path = CATEGORY_IMAGE_MAP.get(category) or csv_image_path or DEFAULT_IMAGE
 
                 if not page_date_raw:
                     raise CommandError(f"Row {row_num}: page_date is empty")
@@ -90,6 +147,7 @@ class Command(BaseCommand):
                     body=body,
                     prayer=prayer,
                     image_path=image_path,
+                    category=category,
                 )
                 created_pages += 1
 

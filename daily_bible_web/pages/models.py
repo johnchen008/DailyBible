@@ -8,13 +8,13 @@ class DailyPage(models.Model):
     prayer = models.TextField(blank=True, verbose_name='祷告内容')
     image_path = models.CharField(max_length=1000, blank=True, verbose_name='图片路径')
 
+    # ✅ 新增这个
+    category = models.CharField(max_length=50, blank=True, verbose_name='类别')
+
     class Meta:
         ordering = ['page_date']
         verbose_name = '每日页面'
         verbose_name_plural = '每日页面'
-
-    def __str__(self) -> str:
-        return self.title or f'{self.page_date} 每日读经'
 
 
 class ReadingLink(models.Model):

@@ -16,6 +16,12 @@
                 </div>
             {% endif %}
 
+            {% if page.category %}
+                <div class="page-category">
+                    {{ page.category }}
+                </div>
+            {% endif %}
+
             <div class="page-title">
                 {{ page.title|default:"每日读经" }}
             </div>
@@ -36,11 +42,11 @@
             {% endif %}
 
             <div class="section-title">今日灵修</div>
-            <div class="body-text">{{ page.body }}</div>
+            <div class="body-text">{{ page.body|linebreaksbr }}</div>
 
             {% if page.prayer %}
                 <div class="section-title">今日祷告</div>
-                <div class="prayer-text">{{ page.prayer }}</div>
+                <div class="prayer-text">{{ page.prayer|linebreaksbr }}</div>
             {% endif %}
 
             <div class="nav-buttons">
