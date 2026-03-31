@@ -51,7 +51,7 @@ def normalize_paragraphs(text: str) -> str:
     if current:
         paragraphs.append("".join(current).strip())
 
-    return "\n\n".join(p for p in paragraphs if p)
+    return "\n".join(p for p in paragraphs if p)
 
 
 def clean_prayer_text(prayer: str) -> str:
