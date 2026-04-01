@@ -141,7 +141,19 @@ body {
         margin: 24px 0 12px;
     }
 
-    .body-text,
+    
+ .body-text p {
+    margin: 0 0 0.9em 0;
+    line-height: 1.9;
+}
+
+.body-text p:last-child {
+    margin-bottom: 0;
+}
+
+.body-text p:last-child {
+    margin-bottom: 0;
+}
     .prayer-text {
         font-size: 1.08rem;
         line-height: 1.95;
