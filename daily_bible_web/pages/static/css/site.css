@@ -60,12 +60,10 @@ body {
 }
 
 .bible-link:visited {
-    color: #000000;  /* 点击后颜色 */
+    color: #5aa9e6;  /* 点击后颜色 */
 }
 
-.bible-link:hover {
-    color: #6e4a2f;   /* hover 效果 */
-}
+
 
 
 
