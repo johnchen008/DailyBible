@@ -59,6 +59,9 @@ body {
     margin-right: 0.2em;
 }
 
+.bible-link a:visited {
+    color: #5aa9e6;   /* light blue */
+}
 .section-title {
     font-size: 1.9rem;
     font-weight: 700;
