@@ -59,6 +59,14 @@ body {
     margin-right: 0.2em;
 }
 
+.bible-link:visited {
+    color: #5aa9e6;  /* 点击后颜色 */
+}
+
+
+
+
+
 .section-title {
     font-size: 1.9rem;
     font-weight: 700;
