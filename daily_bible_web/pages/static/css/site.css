@@ -59,9 +59,16 @@ body {
     margin-right: 0.2em;
 }
 
-.bible-link a:visited {
-    color: #5aa9e6;   /* light blue */
+.bible-link:visited {
+    color: #5aa9e6;  /* 点击后颜色 */
 }
+
+.bible-link:hover {
+    color: #6e4a2f;   /* hover 效果 */
+}
+
+
+
 .section-title {
     font-size: 1.9rem;
     font-weight: 700;
