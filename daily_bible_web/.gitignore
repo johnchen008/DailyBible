@@ -13,7 +13,7 @@ daily_bible_web/wsgi.py
 pages/migrations/
 
 # Static files collected by Django
-staticfiles/
+staticfiles/images
 
 # Media uploads (if you add them later)
 media/
